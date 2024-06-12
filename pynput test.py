@@ -63,36 +63,37 @@ with open("def_list_2.csv", newline='') as csvfile:
 # print(data[0][3]) # 2D array
 counter = 0
 
-for item in data: # item is a row
+for i in range(215, len(data)): # item is a row
     counter += 1
 
     mouse.position = (mouseX, -300) # Add task
-    # time.sleep(0.5)
+    time.sleep(1)
     mouse.click(Button.left, 1) # click
-    time.sleep(0.5)
+    time.sleep(1)
 
     # select deficiency
     mouse.move(0, 50) # change relative position
-    time.sleep(0.5)
+    time.sleep(1)
     mouse.click(Button.left, 1) # click
+    time.sleep(1)
 
 
     mouse.move(0, 45)
-    time.sleep(0.5)
+    time.sleep(1)
     mouse.click(Button.left, 1)
 
     # click on text box
     time.sleep(1)
     mouse.move(0, 30)
-    time.sleep(0.5)
+    time.sleep(1)
     mouse.click(Button.left, 1)
 
-    desc = item[3]
-    keyboard.write(desc + ": " + item[2])
+    desc = data[i][3]
+    keyboard.write(desc + ": " + data[i][2])
 
     # selecting location CC (can change later)
     mouse.move(0, 115)
-    time.sleep(0.25)
+    time.sleep(0.5)
     mouse.click(Button.left, 1)
     mouse.move(155, 120)
     mouse.click(Button.left, 1)
@@ -101,43 +102,46 @@ for item in data: # item is a row
     mouse.move(0, 40)
     mouse.click(Button.left, 1)
 
-    location(item) # selects location
+    location(data[i]) # selects location
 
     mouse.move(-155, -40)
 
-    time.sleep(0.25)
+    time.sleep(1)
     mouse.move(0, 200)
     mouse.click(Button.left, 1)
 
     # Positioning over search bar (trade type) and type value
-    time.sleep(0.5)
+    time.sleep(1)
     mouse.move(0, 30)
     mouse.click(Button.left, 1)
-    keyboard.write(convert_trade(item[4]))
+    keyboard.write(convert_trade(data[i][4]))
 
 
     # Select Package
-    time.sleep(0.25)
+    time.sleep(1)
     mouse.move(0, 40)
+    time.sleep(1)
     mouse.click(Button.left, 1)
 
     # Scroll down
-    time.sleep(0.25)
-    for i in range(10):
+    time.sleep(1)
+    for k in range(10):
         keyboard.send("down")
 
     # Click on Priority
-    time.sleep(0.25)
+    time.sleep(0.75)
     mouse.move(0, -20)
+    time.sleep(0.75)
     mouse.click(Button.left, 1)
 
     # Select medium priority (can be changed)
-    time.sleep(0.25)
+    time.sleep(0.75)
     mouse.move(0, 100)
+    time.sleep(1)
     mouse.click(Button.left, 1)
 
-    time.sleep(0.5)
+    time.sleep(0.75)
     mouse.move(0, 80)
     mouse.click(Button.left, 1)
 
-    time.sleep(3)
+    time.sleep(5 + (counter / 100))
