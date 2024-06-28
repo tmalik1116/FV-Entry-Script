@@ -48,6 +48,16 @@ def convert_trade(name):
             return "doors"
         case "Westmount":
             return "glazing"
+        case "Troy":
+            return "fire proection"
+        case "Outspan":
+            return "formwork"
+        case "Pink":
+            return "precast"
+        case "Thyssenkrupp":
+            return "elevator"
+        case "Novum":
+            return "structural glass"
         case default:
             return "chandos"
         
@@ -74,7 +84,7 @@ mouseX = 1330
 # text = fp.read()
 # data = text.split('\n')
 
-with open("RAW_CC.csv", newline='') as csvfile:
+with open("additional.csv", newline='') as csvfile:
     data = list(csv.reader(csvfile))
 
 cc = 100
@@ -166,6 +176,7 @@ for i in range(len(data)): # item is a row
 
     time.sleep(0.25)
     mouse.move(0, 80)
+
     mouse.click(Button.left, 1)
 
     # This delay may need to be lengthened on systems with a slow internet connection. If the page does not reload within 2.5s the program behave unexpectedly.
