@@ -17,6 +17,8 @@ import time
 import keyboard
 import csv
 
+mouse = Controller()
+
 # Converts subtrade to expected 'Package' by Field View
 def convert_trade(name):
     match name:
@@ -57,7 +59,7 @@ def convert_trade(name):
         case "Thyssenkrupp":
             return "elevator"
         case "Novum":
-            return "structural glass"
+            return "structural glass00"
         case default:
             return "chandos"
         
@@ -77,107 +79,121 @@ def location(item):
         mouse.click(Button.left, 1)
         mouse.move(0, -105)
 
-mouse = Controller()
-mouseX = 1330
+def run(location, filename): # currently set to read CSV, can adjust to detect file type
 
-# fp = open("pdftext.txt", 'r')
-# text = fp.read()
-# data = text.split('\n')
+    mouseX = 1330
 
-with open("additional.csv", newline='') as csvfile:
-    data = list(csv.reader(csvfile))
+    with open(filename, newline='', encoding='utf-8') as csvfile:
+        data = list(csv.reader(csvfile))
 
-cc = 100
-lib = 140
-br = 75
+    cc = 100
+    lib = 140
+    br = 75
 
-counter = 0
+    match location:
+        case "cc":
+            location = cc
+        case "lib":
+            location = lib
+        case "br":
+            location = br
 
-
-for i in range(len(data)): # item is a row
-    counter += 1
-
-    mouse.position = (mouseX, -300) # Add task
-    time.sleep(0.5)
-    mouse.click(Button.left, 1) # click
-    time.sleep(0.5)
-
-    # select deficiency
-    mouse.move(0, 50) # change relative position
-    time.sleep(0.25)
-    mouse.click(Button.left, 1) # click
-    time.sleep(0.25)
+    counter = 0
 
 
-    mouse.move(0, 70)
-    time.sleep(0.5)
-    mouse.click(Button.left, 1)
+    for i in range(len(data)): # item is a row
+        counter += 1
 
-    # click on text box
-    time.sleep(0.5)
-    mouse.move(0, 30)
-    time.sleep(0.25)
-    mouse.click(Button.left, 1)
+        mouse.position = (mouseX, -300) # Add task
+        time.sleep(0.5)
+        mouse.click(Button.left, 1) # click
+        time.sleep(0.5)
 
-    # desc = data[i][3]
-    keyboard.write(data[i][1])
-
-    # selecting location CC (can change later)
-    mouse.move(0, 115)
-
-    time.sleep(0.25)
-    mouse.click(Button.left, 1)
-
-    # location variable can be interchanged
-    mouse.move(0, cc)
-    mouse.click(Button.left, 1)
-    mouse.move(0, (-1 * cc))
-
-    time.sleep(0.25)
-    mouse.move(0, 120)
+        # select deficiency
+        mouse.move(0, 50) # change relative position
+        time.sleep(0.25)
+        mouse.click(Button.left, 1) # click
+        time.sleep(0.25)
 
 
-    time.sleep(0.25)
-    mouse.move(0, 150)
-    mouse.click(Button.left, 1)
+        mouse.move(0, 70)
+        time.sleep(0.5)
+        mouse.click(Button.left, 1)
 
-    
-    # Positioning over search bar (trade type) and type value
-    time.sleep(0.25)
-    mouse.move(0, 40)
-    mouse.click(Button.left, 1)
+        # click on text box
+        time.sleep(0.5)
+        mouse.move(0, 30)
+        time.sleep(0.25)
+        mouse.click(Button.left, 1)
 
-    keyboard.write(convert_trade(data[i][0]))
+        # desc = data[i][3]
+        keyboard.write(data[i][1])
 
-    # Select Package
-    time.sleep(0.25)
-    mouse.move(0, 50)
-    time.sleep(0.25)
-    mouse.click(Button.left, 1)
+        # selecting location CC (can change later)
+        mouse.move(0, 115)
 
+        time.sleep(0.25)
+        mouse.click(Button.left, 1)
 
-    # Scroll down
-    time.sleep(0.25)
-    for k in range(10):
-        keyboard.send("down")
+        # location variable can be interchanged
+        mouse.move(0, location)
+        mouse.click(Button.left, 1)
+        mouse.move(0, (-1 * location))
 
-    # Click on Priority
-    time.sleep(0.25)
-    mouse.move(0, -20)
-    time.sleep(0.25)
-    mouse.click(Button.left, 1)
-
-    # Select medium priority (can be changed)
-    time.sleep(0.25)
-    mouse.move(0, 120)
-    time.sleep(0.25)
-    mouse.click(Button.left, 1)
+        time.sleep(0.25)
+        mouse.move(0, 120)
 
 
-    time.sleep(0.25)
-    mouse.move(0, 80)
+        time.sleep(0.25)
+        mouse.move(0, 150)
+        mouse.click(Button.left, 1)
 
-    mouse.click(Button.left, 1)
+        
+        # Positioning over search bar (trade type) and type value
+        time.sleep(0.25)
+        mouse.move(0, 40)
+        mouse.click(Button.left, 1)
 
-    # This delay may need to be lengthened on systems with a slow internet connection. If the page does not reload within 2.5s the program behave unexpectedly.
-    time.sleep(3)
+        keyboard.write(convert_trade(data[i][0]))
+
+        # Select Package
+        time.sleep(0.25)
+        mouse.move(0, 50)
+        time.sleep(0.25)
+        mouse.click(Button.left, 1)
+
+
+        # Scroll down
+        time.sleep(0.25)
+        for k in range(10):
+            keyboard.send("down")
+
+        # Click on Priority
+        time.sleep(0.25)
+        mouse.move(0, -20)
+        time.sleep(0.25)
+        mouse.click(Button.left, 1)
+
+        # Select medium priority (can be changed)
+        time.sleep(0.25)
+        mouse.move(0, 120)
+        time.sleep(0.25)
+        mouse.click(Button.left, 1)
+
+
+        time.sleep(0.25)
+        mouse.move(0, 80)
+
+        mouse.click(Button.left, 1)
+
+        # This delay may need to be lengthened on systems with a slow internet connection. If the page does not reload within 2.5s the program behave unexpectedly.
+        time.sleep(3)
+
+
+# declaring files/locations
+locations = ["br", "lib", "cc"]
+filenames = ["RAW_BR_2.csv", "RAW_LIB_2.csv", "RAW_CC_2.csv"]
+
+# running for each file
+for i in range(3):
+    run(locations[i], filenames[i])
