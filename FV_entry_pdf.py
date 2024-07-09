@@ -79,29 +79,35 @@ def location(item):
         mouse.click(Button.left, 1)
         mouse.move(0, -105)
 
-def run(location, filename): # currently set to read CSV, can adjust to detect file type
+def run(filename): # currently set to read CSV, can adjust to detect file type
 
     mouseX = 1330
 
     with open(filename, newline='', encoding='utf-8') as csvfile:
         data = list(csv.reader(csvfile))
 
+    location = data[0][0]
+
     cc = 100
     lib = 140
     br = 75
 
+    print(location)
+
     match location:
-        case "cc":
+        case "CC":
             location = cc
-        case "lib":
+        case "LIB":
             location = lib
-        case "br":
+        case "BR":
             location = br
+
+    print(location)
 
     counter = 0
 
 
-    for i in range(len(data)): # item is a row
+    for i in range(1, len(data)): # item is a row
         counter += 1
 
         mouse.position = (mouseX, -300) # Add task
@@ -195,5 +201,5 @@ locations = ["br", "lib", "cc"]
 filenames = ["RAW_BR_2.csv", "RAW_LIB_2.csv", "RAW_CC_2.csv"]
 
 # running for each file
-for i in range(3):
-    run(locations[i], filenames[i])
+for i in range(2):
+    run(filenames[i])
