@@ -92,8 +92,6 @@ def run(filename): # currently set to read CSV, can adjust to detect file type
     lib = 140
     br = 75
 
-    print(location)
-
     match location:
         case "CC":
             location = cc
@@ -101,8 +99,6 @@ def run(filename): # currently set to read CSV, can adjust to detect file type
             location = lib
         case "BR":
             location = br
-
-    print(location)
 
     counter = 0
 
