@@ -9,7 +9,8 @@
 # This is not a plug and play solution, it was designed to work with my specific computer setup. However it can be adapted 
 # quite easily to be much more broadly applicable.
 
-# Talha Malik, June 19, 2024
+# Talha Malik, June 12, 2024
+# Last Updated: July 15, 2024
 
 import pynput
 from pynput.mouse import Button, Controller
@@ -19,7 +20,7 @@ import csv
 
 mouse = Controller()
 
-# Converts subtrade to expected 'Package' by Field View
+# Helper function to convert subtrade to expected 'Package' by Field View
 def convert_trade(name):
     match name:
         case "Benmar":
@@ -59,10 +60,20 @@ def convert_trade(name):
         case "Thyssenkrupp":
             return "elevator"
         case "Novum":
-            return "structural glass00"
+            return "structural glass"
+        case "Verdi":
+            return "hardscape"
         case default:
-            return "chandos"
+            return "chando"
         
+# Helper function to check if a trade is in the database
+def trade_exists(name):
+    if convert_trade(name) == "chando":
+        return False
+    else:
+        return True
+        
+# Helper function to automatically select correct floor of CC (only my format)
 def location(item):
     if item[2].startswith('B'):
         mouse.click(Button.left, 1)
@@ -86,7 +97,7 @@ def run(filename): # currently set to read CSV, can adjust to detect file type
     with open(filename, newline='', encoding='utf-8') as csvfile:
         data = list(csv.reader(csvfile))
 
-    location = data[0][0]
+    location = 'CC'
 
     cc = 100
     lib = 140
@@ -102,7 +113,7 @@ def run(filename): # currently set to read CSV, can adjust to detect file type
 
     counter = 0
 
-
+    # Main loop to iterate through all entries in file
     for i in range(1, len(data)): # item is a row
         counter += 1
 
@@ -128,8 +139,11 @@ def run(filename): # currently set to read CSV, can adjust to detect file type
         time.sleep(0.25)
         mouse.click(Button.left, 1)
 
-        # desc = data[i][3]
-        keyboard.write(data[i][1])
+        # Checking if subtrade is in FV or not, then writes description of task
+        if trade_exists(data[i][0]):
+            keyboard.write(data[i][1])
+        else:
+            keyboard.write(f"{data[i][1]} ({data[i][0]})")
 
         # selecting location CC (can change later)
         mouse.move(0, 115)
@@ -156,6 +170,7 @@ def run(filename): # currently set to read CSV, can adjust to detect file type
         mouse.move(0, 40)
         mouse.click(Button.left, 1)
 
+        # Type package name into search bar
         keyboard.write(convert_trade(data[i][0]))
 
         # Select Package
@@ -188,7 +203,7 @@ def run(filename): # currently set to read CSV, can adjust to detect file type
 
         mouse.click(Button.left, 1)
 
-        # This delay may need to be lengthened on systems with a slow internet connection. If the page does not reload within 2.5s the program behave unexpectedly.
+        # This delay may need to be lengthened on systems with a slow internet connection. If the page does not reload within 2.5s the program behaves unexpectedly.
         time.sleep(3)
 
 
@@ -197,5 +212,7 @@ locations = ["br", "lib", "cc"]
 filenames = ["RAW_BR_2.csv", "RAW_LIB_2.csv", "RAW_CC_2.csv"]
 
 # running for each file
-for i in range(2):
-    run(filenames[i])
+# for i in range(2):
+#     run(filenames[i])
+
+run("TPP_50.csv")
