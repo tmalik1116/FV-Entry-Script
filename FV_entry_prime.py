@@ -63,6 +63,10 @@ def convert_trade(name):
             return "structural glass"
         case "Verdi":
             return "hardscape"
+        case "Custom Ice":
+            return "ice rink"
+        case "Forest":
+            return "paving"
         case default:
             return "chando"
         
@@ -97,11 +101,12 @@ def run(filename): # currently set to read CSV, can adjust to detect file type
     with open(filename, newline='', encoding='utf-8') as csvfile:
         data = list(csv.reader(csvfile))
 
-    location = 'CC'
+    location = data[0][0]
 
     cc = 100
     lib = 140
     br = 75
+    sq = 165
 
     match location:
         case "CC":
@@ -110,6 +115,8 @@ def run(filename): # currently set to read CSV, can adjust to detect file type
             location = lib
         case "BR":
             location = br
+        case "SQ":
+            location = sq
 
     counter = 0
 
@@ -215,4 +222,4 @@ filenames = ["RAW_BR_2.csv", "RAW_LIB_2.csv", "RAW_CC_2.csv"]
 # for i in range(2):
 #     run(filenames[i])
 
-run("TPP_50.csv")
+run("TPP_51.csv")
